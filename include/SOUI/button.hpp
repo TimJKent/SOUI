@@ -15,12 +15,12 @@ namespace SOUI
     class Button : public UIComponent
     {
     public:
-        Button(const glm::ivec2 &position, const glm::ivec2 &size, const std::string &text, std::shared_ptr<SOGLR::Shader> text_shader, std::shared_ptr<SOGLR::Shader> panel_shader, std::shared_ptr<SOUI::Font> font) : UIComponent()
+        Button(const glm::ivec2 &position, const glm::ivec2 &size, const std::string &text, std::shared_ptr<SOGLR::Shader> text_shader, std::shared_ptr<SOGLR::Shader> panel_shader, std::shared_ptr<SOUI::Font> font, std::shared_ptr<SOGLR::Material> text_material, std::shared_ptr<SOGLR::Material> panel_material) : UIComponent()
         {
             position_ = position;
             size_ = size;
-            text_ = std::make_unique<Text>(position, size, text, text_shader, font, HorizontalTextAlign::CENTER, VerticalTextAlign::CENTER);
-            panel_ = std::make_unique<Panel>(position, size, panel_shader);
+            text_ = std::make_unique<Text>(position, size, text, text_shader, font, text_material, HorizontalTextAlign::CENTER, VerticalTextAlign::CENTER);
+            panel_ = std::make_unique<Panel>(position, size, panel_shader, panel_material);
         }
 
         ~Button() = default;
@@ -42,6 +42,7 @@ namespace SOUI
 
         void OnMouseEnter() final
         {
+            panel_->GetRenderObjects()[0]->GetMaterial()->SetProperty("color", glm::vec4(hover_color_, 1.0f));
             if (on_mouse_enter_)
             {
                 on_mouse_enter_();
@@ -50,11 +51,18 @@ namespace SOUI
 
         void OnMouseExit() final
         {
+            panel_->GetRenderObjects()[0]->GetMaterial()->SetProperty("color", glm::vec4(button_color_, 1.0f));
             pressing_ = false;
             if (on_mouse_exit_)
             {
                 on_mouse_exit_();
             }
+        }
+
+        void OnComponentMove() final
+        {
+            panel_->SetPosition(position_);
+            text_->SetPosition(position_);
         }
 
         void OnComponentResize() final
@@ -63,10 +71,15 @@ namespace SOUI
             text_->SetSize(size_);
         }
 
-        void OnComponentMove() final
+        void SetButtonColor(const glm::vec3 &color)
         {
-            panel_->SetPosition(position_);
-            text_->SetPosition(position_);
+            button_color_ = color;
+            panel_->GetRenderObjects()[0]->GetMaterial()->SetProperty("color", glm::vec4(button_color_, 1.0f));
+        }
+
+        void SetHoverColor(const glm::vec3 &color)
+        {
+            hover_color_ = color;
         }
 
         std::vector<std::shared_ptr<SOGLR::RenderObject>> GetRenderObjects() const override
@@ -105,5 +118,7 @@ namespace SOUI
         std::function<void()> on_mouse_exit_;
         std::unique_ptr<Text> text_;
         std::unique_ptr<Panel> panel_;
+        glm::vec3 button_color_{0.05f, 0.05f, 0.05f};
+        glm::vec3 hover_color_{0.2f, 0.2f, 0.2f};
     };
 }

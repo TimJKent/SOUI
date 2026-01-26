@@ -27,8 +27,8 @@ namespace SOUI
     class Text : public UIComponent
     {
     public:
-        Text(glm::ivec2 position, glm::ivec2 size, const std::string &text, std::shared_ptr<SOGLR::Shader> shader, std::shared_ptr<Font> font, HorizontalTextAlign h_align = HorizontalTextAlign::LEFT, VerticalTextAlign v_align = VerticalTextAlign::BOTTOM)
-            : text_object_(std::make_shared<SOGLR::RenderObject>()), text_(text), shader_(shader), font_(font), h_align_(h_align), v_align_(v_align)
+        Text(glm::ivec2 position, glm::ivec2 size, const std::string &text, std::shared_ptr<SOGLR::Shader> shader, std::shared_ptr<Font> font, std::shared_ptr<SOGLR::Material> material, HorizontalTextAlign h_align = HorizontalTextAlign::LEFT, VerticalTextAlign v_align = VerticalTextAlign::BOTTOM)
+            : text_object_(std::make_shared<SOGLR::RenderObject>()), text_(text), shader_(shader), font_(font), material_(material), h_align_(h_align), v_align_(v_align)
         {
             position_ = position;
             size_ = size;
@@ -111,6 +111,7 @@ namespace SOUI
 
             text_object_->SetModel(quad_model);
             text_object_->SetShader(shader_);
+            text_object_->SetMaterial(material_);
         }
 
         virtual void OnComponentResize() final {}
@@ -128,6 +129,7 @@ namespace SOUI
         std::shared_ptr<SOGLR::Shader> shader_;
         std::shared_ptr<Font> font_;
         std::shared_ptr<SOGLR::RenderObject> text_object_;
+        std::shared_ptr<SOGLR::Material> material_;
         std::string text_;
         HorizontalTextAlign h_align_;
         VerticalTextAlign v_align_;
