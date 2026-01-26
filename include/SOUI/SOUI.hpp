@@ -5,3 +5,6 @@
 #include "text.hpp"
 #include "ui_component.hpp"
 #include "ui_controller.hpp"
+#include "Character.hpp"
+#include "Font.hpp"
+#include "FontLoader.hpp"
