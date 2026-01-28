@@ -41,6 +41,9 @@ namespace SOUI
 
         void SetText(const std::string &new_text)
         {
+            if (new_text == text_)
+                return;
+
             text_ = new_text;
             float x = 0.0f;
             float y = 0.0f;
