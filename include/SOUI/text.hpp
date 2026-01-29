@@ -32,19 +32,15 @@ namespace SOUI
         {
             position_ = position;
             size_ = size;
-            SetText(text);
+            RegenerateText();
             OnComponentMove();
         }
 
         ~Text() = default;
         const std::string &GetText() const { return text_; }
 
-        void SetText(const std::string &new_text)
+        void RegenerateText()
         {
-            if (new_text == text_)
-                return;
-
-            text_ = new_text;
             float x = 0.0f;
             float y = 0.0f;
             float scale = 1.0f;
@@ -115,6 +111,15 @@ namespace SOUI
             text_object_->SetModel(quad_model);
             text_object_->SetShader(shader_);
             text_object_->SetMaterial(material_);
+        }
+
+        void SetText(const std::string &new_text)
+        {
+            if (new_text == text_)
+                return;
+
+            text_ = new_text;
+            RegenerateText();
         }
 
         virtual void OnComponentResize() final {}
