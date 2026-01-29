@@ -35,7 +35,7 @@ namespace SOUI
 #ifdef _WIN32
             std::string font_path = "C:/Windows/Fonts/segoeui.ttf";
 #else
-            std::string font_path = "/usr/share/fonts/truetype/LiberationSans-Regular.ttf";
+            std::string font_path = "/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf";
 #endif
 
             auto expected_font_12 = font_loader.LoadFont(font_path, 12);
