@@ -122,7 +122,10 @@ namespace SOUI
             RegenerateText();
         }
 
-        virtual void OnComponentResize() final {}
+        virtual void OnComponentResize() final
+        {
+            RegenerateText();
+        }
         virtual void OnComponentMove() final
         {
             text_object_->GetTransform().position = glm::vec3(static_cast<float>(position_.x), static_cast<float>(position_.y), 0.0f);

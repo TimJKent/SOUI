@@ -1,6 +1,9 @@
 #pragma once
 
+#include <array>
 #include <memory>
+#include <stdexcept>
+#include <string>
 #include <vector>
 
 #include <glm/glm.hpp>
@@ -54,6 +57,7 @@ namespace SOUI
 
         void AddComponent(std::shared_ptr<UIComponent> component)
         {
+            component->ui_controller_ = this;
             components_.push_back(component);
             scene_->AddRenderObject(component->GetRenderObjects());
         }
@@ -116,6 +120,7 @@ namespace SOUI
         std::shared_ptr<Font> GetDefaultFont12() const { return default_font_12; }
         std::shared_ptr<Font> GetDefaultFont24() const { return default_font_24; }
         std::shared_ptr<Font> GetDefaultFont48() const { return default_font_48; }
+        std::shared_ptr<SOGLR::Window> GetWindow() const { return window_; }
 
     private:
         std::array<bool, 3> previous_mouse_button_states_ = {false, false, false};

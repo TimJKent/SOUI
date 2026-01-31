@@ -30,7 +30,6 @@ namespace SOUI
             auto quad_mesh = SOGLR::Mesh(GetVertices(), SOGLR::Primitives::Quad::indicies, {});
             quad_model->AddMesh(quad_mesh);
 
-            panel_object_ = std::make_shared<SOGLR::RenderObject>();
             panel_object_->SetModel(quad_model);
             panel_object_->SetShader(shader_);
             panel_object_->SetMaterial(material_);
